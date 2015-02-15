@@ -1,8 +1,8 @@
 package p1;
 
 public class Token {
-	
-	enum TokenCode {
+
+	public enum TokenCode {
 		ID,
 		ASSIGN,
 		SEMICOL,
@@ -17,8 +17,6 @@ public class Token {
 		ERROR
 	}
 	
-	String lexeme;
-	TokenCode tCode;
-	
-	
+	public String lexeme;
+	public TokenCode tCode;
 }
