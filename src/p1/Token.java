@@ -16,9 +16,6 @@ public class Token {
 		END,
 		ERROR
 	}
-	
 	String lexeme;
 	TokenCode tCode;
-	
-	
 }
