@@ -1,6 +1,6 @@
 package p1;
 
-import p1.Token.TokenCode;
+//import p1.Token;
 
 public class Parser {
 	private Lexer lexer = null;
@@ -17,16 +17,15 @@ public class Parser {
 	
 	private void getNextToken() {
 		nextToken = lexer.nextToken();
-		if(nextToken.tCode == TokenCode.SEMICOL) getNextToken();	// Ignoring ; for now
+		if(nextToken.tCode == Token.TokenCode.SEMICOL) getNextToken();	// Ignoring ; for now
 	}
 	
-	/*
-	 	Statements -> Statement ; Statements | end
-		Statement -> id = Expr | print id
-		Expr- > Term | Term + Expr | Term – Expr
-		Term -> Factor | Factor * Term
-		Factor -> int | id | ( Expr )
-	 */
+	
+	// Statements -> Statement ; Statements | end
+	// Statement -> id = Expr | print id
+	// Expr- > Term | Term + Expr | Term - Expr
+	// Term -> Factor | Factor * Term
+	// Factor -> int | id | ( Expr )
 	
 	// Statements -> &Statement ; &Statements | end
 	private void statements() {
@@ -36,8 +35,11 @@ public class Parser {
 			// statement
 			// ignore ; for now
 			// statements, recursive
-		if(nextToken.tCode == TokenCode.END) {
+		if(nextToken.tCode == Token.TokenCode.END) {
 			return;
+		} else if(nextToken.tCode == Token.TokenCode.ERROR) {
+			error();
+			System.exit(0);
 		} else {
 			statement();
 			// Took out ;
@@ -66,19 +68,19 @@ public class Parser {
 				// error
 		// else
 			// error
-		if(nextToken.tCode == TokenCode.PRINT) {
+		if(nextToken.tCode == Token.TokenCode.PRINT) {
 			getNextToken();
-			if(nextToken.tCode == TokenCode.ID) {
+			if(nextToken.tCode == Token.TokenCode.ID) {
 				System.out.println("PUSH " + nextToken.lexeme);
 				System.out.println("PRINT");
 				getNextToken();
 			} else {
 				error();
 			}
-		} else if(nextToken.tCode == TokenCode.ID) {
+		} else if(nextToken.tCode == Token.TokenCode.ID) {
 			System.out.println("PUSH " + nextToken.lexeme);
 			getNextToken();
-			if(nextToken.tCode == TokenCode.ASSIGN) {
+			if(nextToken.tCode == Token.TokenCode.ASSIGN) {
 				getNextToken();
 				expr();
 				System.out.println("ASSIGN");
@@ -90,7 +92,7 @@ public class Parser {
 		}
 	}
 	
-	// Expr- > &Term | &Term + &Expr | &Term – &Expr
+	// Expr- > &Term | &Term + &Expr | &Term - &Expr
 	private void expr() {
 		// term
 		// if +
@@ -104,11 +106,11 @@ public class Parser {
 		// else
 			// error
 		term();
-		if(nextToken.tCode == TokenCode.PLUS) {
+		if(nextToken.tCode == Token.TokenCode.PLUS) {
 			getNextToken();
 			expr();
 			System.out.println("ADD");
-		} else if(nextToken.tCode == TokenCode.MINUS) {
+		} else if(nextToken.tCode == Token.TokenCode.MINUS) {
 			getNextToken();
 			expr();
 			System.out.println("SUB");
@@ -124,7 +126,7 @@ public class Parser {
 			// term
 			// push *
 		factor();
-		if(nextToken.tCode == TokenCode.MULT) {
+		if(nextToken.tCode == Token.TokenCode.MULT) {
 			getNextToken();
 			term();
 			System.out.println("MULT");
@@ -148,16 +150,16 @@ public class Parser {
 				// error
 		// else
 			// error
-		if(nextToken.tCode == TokenCode.INT) {
+		if(nextToken.tCode == Token.TokenCode.INT) {
 			System.out.println("PUSH " + nextToken.lexeme);
 			getNextToken();
-		} else if(nextToken.tCode == TokenCode.ID) {
+		} else if(nextToken.tCode == Token.TokenCode.ID) {
 			System.out.println("PUSH " + nextToken.lexeme);
 			getNextToken();
-		} else if(nextToken.tCode == TokenCode.LPAREN) {
+		} else if(nextToken.tCode == Token.TokenCode.LPAREN) {
 			getNextToken();									// Ignore (
 			expr();
-			if(nextToken.tCode == TokenCode.RPAREN) {
+			if(nextToken.tCode == Token.TokenCode.RPAREN) {
 				getNextToken();								// Ignore )
 			} else {
 				error();

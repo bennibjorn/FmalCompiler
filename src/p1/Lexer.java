@@ -1,22 +1,22 @@
 package p1;
 
-import p1.Token.TokenCode;
+//import Token.TokenCode;			//p1.
 import java.lang.Character;
 import java.util.ArrayList;
 
 public class Lexer {
-	private static final TokenCode ID = Token.TokenCode.ID;
-	private static final TokenCode INT = Token.TokenCode.INT;
-	private static final TokenCode LPAREN = Token.TokenCode.LPAREN;
-	private static final TokenCode RPAREN = Token.TokenCode.RPAREN;
-	private static final TokenCode PLUS = Token.TokenCode.PLUS;
-	private static final TokenCode MINUS = Token.TokenCode.MINUS;
-	private static final TokenCode MULT = Token.TokenCode.MULT;
-	private static final TokenCode SEMICOL = Token.TokenCode.SEMICOL;
-	private static final TokenCode ASSIGN = Token.TokenCode.ASSIGN;
-	private static final TokenCode PRINT = Token.TokenCode.PRINT;
-	private static final TokenCode END = Token.TokenCode.END;
-	private static final TokenCode ERROR = null;
+	private static final Token.TokenCode ID = Token.TokenCode.ID;
+	private static final Token.TokenCode INT = Token.TokenCode.INT;
+	private static final Token.TokenCode LPAREN = Token.TokenCode.LPAREN;
+	private static final Token.TokenCode RPAREN = Token.TokenCode.RPAREN;
+	private static final Token.TokenCode PLUS = Token.TokenCode.PLUS;
+	private static final Token.TokenCode MINUS = Token.TokenCode.MINUS;
+	private static final Token.TokenCode MULT = Token.TokenCode.MULT;
+	private static final Token.TokenCode SEMICOL = Token.TokenCode.SEMICOL;
+	private static final Token.TokenCode ASSIGN = Token.TokenCode.ASSIGN;
+	private static final Token.TokenCode PRINT = Token.TokenCode.PRINT;
+	private static final Token.TokenCode END = Token.TokenCode.END;
+	private static final Token.TokenCode ERROR = Token.TokenCode.ERROR;
 	
 	public String inputString;
 	private int inputPos;
@@ -31,7 +31,13 @@ public class Lexer {
 	/*
 	 * checks the current position 
 	 */
-	public Token nextToken() { // switch á TokenCode nextToken
+	public Token nextToken() { // switch on TokenCode nextToken
+		if(inputPos >= inputString.length()) {
+			Token e = new Token();
+			e.tCode = ERROR;
+			e.lexeme = "Out of bounds";
+			return e;
+		}
 		if (Character.isSpaceChar(inputString.charAt(inputPos)) || (inputString.charAt(inputPos) == '\n')) { // checks for whitespace and newline
 			++inputPos;
 			return nextToken();
@@ -104,7 +110,7 @@ public class Lexer {
 	// Finds the appropriate operator and creates a token
 	// and returns it.
 	private Token checkOps() {
-		TokenCode nextToken;
+		Token.TokenCode nextToken;
 		Token op = null;
 		switch(inputString.charAt(inputPos)) {
 			case '(':
