@@ -26,10 +26,6 @@ public class Lexer {
 		inputPos = 0;
 		inputString = in;
 		lex = new ArrayList<Character>();
-		System.out.println("In the good constructor yay!"); //debug
-	}
-	public Lexer() {
-		System.out.println("In the bad constructor :("); //debug
 	}
 	
 	/*

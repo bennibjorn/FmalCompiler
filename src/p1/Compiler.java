@@ -20,6 +20,7 @@ public class Compiler {
 	 
 			while((line=br.readLine()) != null) {
 				input += line + "\n";
+				if(line.compareTo("end") == 0) break;
 			}
 		} catch(IOException io){
 			io.printStackTrace();
