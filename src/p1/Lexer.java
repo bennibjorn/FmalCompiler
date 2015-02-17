@@ -38,6 +38,7 @@ public class Lexer {
 			e.lexeme = "Out of bounds";
 			return e;
 		}
+
 		if (Character.isSpaceChar(inputString.charAt(inputPos)) || (inputString.charAt(inputPos) == '\n')) { // checks for whitespace and newline
 			++inputPos;
 			return nextToken();
