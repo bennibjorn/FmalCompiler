@@ -36,7 +36,7 @@ public class Lexer {
 	 * checks the current position 
 	 */
 	public Token nextToken() { // switch á TokenCode nextToken
-		if (Character.isSpaceChar(inputString.charAt(inputPos))) { // checks for whitespace and newline
+		if (Character.isSpaceChar(inputString.charAt(inputPos)) || (inputString.charAt(inputPos) == '\n')) { // checks for whitespace and newline
 			++inputPos;
 			return nextToken();
 		}
