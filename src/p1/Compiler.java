@@ -19,8 +19,8 @@ public class Compiler {
 			String line = "";
 	 
 			while((line=br.readLine()) != null) {
-				if(line.compareTo("asf") == 0) break;		// For debugging, can't EOF
 				input += line + "\n";
+				if(line.compareTo("end") == 0) break;
 			}
 		} catch(IOException io){
 			io.printStackTrace();

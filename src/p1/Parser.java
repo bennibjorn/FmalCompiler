@@ -1,14 +1,10 @@
 package p1;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import p1.Token.TokenCode;
 
 public class Parser {
 	private Lexer lexer = null;
 	private Token nextToken = null;
-	private List<Token> list = new ArrayList<Token>();
 	
 	public Parser(Lexer lex) {
 		lexer = lex;
@@ -41,7 +37,6 @@ public class Parser {
 			// ignore ; for now
 			// statements, recursive
 		if(nextToken.tCode == TokenCode.END) {
-			System.out.println("Found end");
 			return;
 		} else {
 			statement();
@@ -72,25 +67,20 @@ public class Parser {
 		// else
 			// error
 		if(nextToken.tCode == TokenCode.PRINT) {
-			list.add(nextToken);
-			System.out.println("PRINT");
 			getNextToken();
 			if(nextToken.tCode == TokenCode.ID) {
-				list.add(nextToken);
 				System.out.println("PUSH " + nextToken.lexeme);
+				System.out.println("PRINT");
 				getNextToken();
 			} else {
 				error();
 			}
 		} else if(nextToken.tCode == TokenCode.ID) {
-			list.add(nextToken);
 			System.out.println("PUSH " + nextToken.lexeme);
 			getNextToken();
 			if(nextToken.tCode == TokenCode.ASSIGN) {
-				Token assign = nextToken;
 				getNextToken();
 				expr();
-				list.add(assign);
 				System.out.println("ASSIGN");
 			} else {
 				error();
@@ -115,16 +105,12 @@ public class Parser {
 			// error
 		term();
 		if(nextToken.tCode == TokenCode.PLUS) {
-			Token plus = nextToken;
 			getNextToken();
 			expr();
-			list.add(plus);
 			System.out.println("ADD");
 		} else if(nextToken.tCode == TokenCode.MINUS) {
-			Token minus = nextToken;
 			getNextToken();
 			expr();
-			list.add(minus);
 			System.out.println("SUB");
 		} 
 	}
@@ -138,12 +124,9 @@ public class Parser {
 			// term
 			// push *
 		factor();
-		getNextToken();
 		if(nextToken.tCode == TokenCode.MULT) {
-			Token mult = nextToken;
 			getNextToken();
 			term();
-			list.add(mult);
 			System.out.println("MULT");
 		}
 	}
@@ -166,18 +149,16 @@ public class Parser {
 		// else
 			// error
 		if(nextToken.tCode == TokenCode.INT) {
-			list.add(nextToken);
 			System.out.println("PUSH " + nextToken.lexeme);
 			getNextToken();
 		} else if(nextToken.tCode == TokenCode.ID) {
-			list.add(nextToken);
 			System.out.println("PUSH " + nextToken.lexeme);
 			getNextToken();
 		} else if(nextToken.tCode == TokenCode.LPAREN) {
-			getNextToken();
+			getNextToken();									// Ignore (
 			expr();
 			if(nextToken.tCode == TokenCode.RPAREN) {
-				getNextToken();
+				getNextToken();								// Ignore )
 			} else {
 				error();
 			}
