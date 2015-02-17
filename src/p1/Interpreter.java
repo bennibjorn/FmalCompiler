@@ -69,6 +69,10 @@ public class Interpreter {
 				print();
 				++commandPos;
 				break;
+			default:
+				System.out.println("Error");
+				System.exit(0);
+				break;
 			}
 		}
 	}
@@ -135,7 +139,7 @@ public class Interpreter {
 			case "ADD":
 				return Integer.toString(val1 + val2);
 			case "SUB":
-				return Integer.toString(val1 - val2);
+				return Integer.toString(val2 - val1);
 		}
 		return null; // should not reach this point
 	}
